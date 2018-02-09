@@ -168,9 +168,9 @@ else:
 if mode == 1:
     print("\nYou run the XYZ preparation for non-counterpoise correction\n")
 elif mode == 2:
-    print("\nYou run the XYZ preparation with non-counterpoise correction for the whole cluster\n")
+    print("\nYou run the XYZ preparation with counterpoise correction for the whole cluster\n")
 elif mode == 3:
-    print("\nYou run the XYZ preparation with non-counterpoise correction for individual clusters\n")
+    print("\nYou run the XYZ preparation with counterpoise correction for individual clusters\n")
     
 if mode == 1 or mode == 2:
     a = """
