@@ -30,12 +30,1017 @@ The second argument, `MODE`, is an integer with values 1, 2 or 3.
 
 After the script is run, you will get a tree with the folders 1b, 2b, ..
 This is an example of a tree for a 5 CO2 molecule cluster:
-
+```
+.
+├── 1b
+│   ├── 1
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   ├── 2
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   ├── 3
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   ├── 4
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   └── 5
+│       ├── input.charge
+│       └── input.xyz
+├── 1b.xyz
+├── 2b
+│   ├── 1
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   ├── 10
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   ├── 2
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   ├── 3
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   ├── 4
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   ├── 5
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   ├── 6
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   ├── 7
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   ├── 8
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   └── 9
+│       ├── input.charge
+│       └── input.xyz
+├── 2b.xyz
+├── 3b
+│   ├── 1
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   ├── 10
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   ├── 2
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   ├── 3
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   ├── 4
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   ├── 5
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   ├── 6
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   ├── 7
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   ├── 8
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   └── 9
+│       ├── input.charge
+│       └── input.xyz
+├── 3b.xyz
+├── 4b
+│   ├── 1
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   ├── 2
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   ├── 3
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   ├── 4
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   └── 5
+│       ├── input.charge
+│       └── input.xyz
+├── 4b.xyz
+├── 5b
+│   └── 1
+│       ├── input.charge
+│       └── input.xyz
+├── 5b.xyz
+├── cluster.xyz
+```
 
 The 1b.xyz, 2b.xyz ... files are all the monomers, dimers... and so on.
 Inside each nb folder, there are several folders, numbered, that contain the input.xyz for that fragment, and the input.charge with the charge of the fragment. This last file will be useful when generating the quantum chemistry input files.
 
-This tree is only valid for modes 1 and 2. For mode 3, the tree is slightly more complicated. Inside each `nb/K/` folder, there will be a new tree like in modes 1 and 2, but ONLY for that concrete fragment. This allows to perform the cluster counterpoise correction.
+This tree is only valid for modes 1 and 2. For mode 3, the tree is slightly more complicated. Inside each `nb/K/` folder, there will be a new tree like in modes 1 and 2, but ONLY for that concrete fragment. This allows to perform the cluster counterpoise correction. This is an example of the directory tree using mode 3.
+```
+.
+├── 1b
+│   ├── 1
+│   │   ├── 1b
+│   │   │   └── 1
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 1b.xyz
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   ├── 2
+│   │   ├── 1b
+│   │   │   └── 1
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 1b.xyz
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   ├── 3
+│   │   ├── 1b
+│   │   │   └── 1
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 1b.xyz
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   ├── 4
+│   │   ├── 1b
+│   │   │   └── 1
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 1b.xyz
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   └── 5
+│       ├── 1b
+│       │   └── 1
+│       │       ├── input.charge
+│       │       └── input.xyz
+│       ├── 1b.xyz
+│       ├── input.charge
+│       └── input.xyz
+├── 1b.xyz
+├── 2b
+│   ├── 1
+│   │   ├── 1b
+│   │   │   ├── 1
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   └── 2
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 1b.xyz
+│   │   ├── 2b
+│   │   │   └── 1
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 2b.xyz
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   ├── 10
+│   │   ├── 1b
+│   │   │   ├── 1
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   └── 2
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 1b.xyz
+│   │   ├── 2b
+│   │   │   └── 1
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 2b.xyz
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   ├── 2
+│   │   ├── 1b
+│   │   │   ├── 1
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   └── 2
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 1b.xyz
+│   │   ├── 2b
+│   │   │   └── 1
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 2b.xyz
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   ├── 3
+│   │   ├── 1b
+│   │   │   ├── 1
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   └── 2
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 1b.xyz
+│   │   ├── 2b
+│   │   │   └── 1
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 2b.xyz
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   ├── 4
+│   │   ├── 1b
+│   │   │   ├── 1
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   └── 2
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 1b.xyz
+│   │   ├── 2b
+│   │   │   └── 1
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 2b.xyz
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   ├── 5
+│   │   ├── 1b
+│   │   │   ├── 1
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   └── 2
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 1b.xyz
+│   │   ├── 2b
+│   │   │   └── 1
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 2b.xyz
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   ├── 6
+│   │   ├── 1b
+│   │   │   ├── 1
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   └── 2
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 1b.xyz
+│   │   ├── 2b
+│   │   │   └── 1
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 2b.xyz
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   ├── 7
+│   │   ├── 1b
+│   │   │   ├── 1
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   └── 2
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 1b.xyz
+│   │   ├── 2b
+│   │   │   └── 1
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 2b.xyz
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   ├── 8
+│   │   ├── 1b
+│   │   │   ├── 1
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   └── 2
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 1b.xyz
+│   │   ├── 2b
+│   │   │   └── 1
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 2b.xyz
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   └── 9
+│       ├── 1b
+│       │   ├── 1
+│       │   │   ├── input.charge
+│       │   │   └── input.xyz
+│       │   └── 2
+│       │       ├── input.charge
+│       │       └── input.xyz
+│       ├── 1b.xyz
+│       ├── 2b
+│       │   └── 1
+│       │       ├── input.charge
+│       │       └── input.xyz
+│       ├── 2b.xyz
+│       ├── input.charge
+│       └── input.xyz
+├── 2b.xyz
+├── 3b
+│   ├── 1
+│   │   ├── 1b
+│   │   │   ├── 1
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   ├── 2
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   └── 3
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 1b.xyz
+│   │   ├── 2b
+│   │   │   ├── 1
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   ├── 2
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   └── 3
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 2b.xyz
+│   │   ├── 3b
+│   │   │   └── 1
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 3b.xyz
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   ├── 10
+│   │   ├── 1b
+│   │   │   ├── 1
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   ├── 2
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   └── 3
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 1b.xyz
+│   │   ├── 2b
+│   │   │   ├── 1
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   ├── 2
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   └── 3
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 2b.xyz
+│   │   ├── 3b
+│   │   │   └── 1
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 3b.xyz
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   ├── 2
+│   │   ├── 1b
+│   │   │   ├── 1
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   ├── 2
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   └── 3
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 1b.xyz
+│   │   ├── 2b
+│   │   │   ├── 1
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   ├── 2
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   └── 3
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 2b.xyz
+│   │   ├── 3b
+│   │   │   └── 1
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 3b.xyz
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   ├── 3
+│   │   ├── 1b
+│   │   │   ├── 1
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   ├── 2
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   └── 3
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 1b.xyz
+│   │   ├── 2b
+│   │   │   ├── 1
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   ├── 2
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   └── 3
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 2b.xyz
+│   │   ├── 3b
+│   │   │   └── 1
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 3b.xyz
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   ├── 4
+│   │   ├── 1b
+│   │   │   ├── 1
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   ├── 2
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   └── 3
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 1b.xyz
+│   │   ├── 2b
+│   │   │   ├── 1
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   ├── 2
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   └── 3
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 2b.xyz
+│   │   ├── 3b
+│   │   │   └── 1
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 3b.xyz
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   ├── 5
+│   │   ├── 1b
+│   │   │   ├── 1
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   ├── 2
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   └── 3
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 1b.xyz
+│   │   ├── 2b
+│   │   │   ├── 1
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   ├── 2
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   └── 3
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 2b.xyz
+│   │   ├── 3b
+│   │   │   └── 1
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 3b.xyz
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   ├── 6
+│   │   ├── 1b
+│   │   │   ├── 1
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   ├── 2
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   └── 3
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 1b.xyz
+│   │   ├── 2b
+│   │   │   ├── 1
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   ├── 2
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   └── 3
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 2b.xyz
+│   │   ├── 3b
+│   │   │   └── 1
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 3b.xyz
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   ├── 7
+│   │   ├── 1b
+│   │   │   ├── 1
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   ├── 2
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   └── 3
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 1b.xyz
+│   │   ├── 2b
+│   │   │   ├── 1
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   ├── 2
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   └── 3
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 2b.xyz
+│   │   ├── 3b
+│   │   │   └── 1
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 3b.xyz
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   ├── 8
+│   │   ├── 1b
+│   │   │   ├── 1
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   ├── 2
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   └── 3
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 1b.xyz
+│   │   ├── 2b
+│   │   │   ├── 1
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   ├── 2
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   └── 3
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 2b.xyz
+│   │   ├── 3b
+│   │   │   └── 1
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 3b.xyz
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   └── 9
+│       ├── 1b
+│       │   ├── 1
+│       │   │   ├── input.charge
+│       │   │   └── input.xyz
+│       │   ├── 2
+│       │   │   ├── input.charge
+│       │   │   └── input.xyz
+│       │   └── 3
+│       │       ├── input.charge
+│       │       └── input.xyz
+│       ├── 1b.xyz
+│       ├── 2b
+│       │   ├── 1
+│       │   │   ├── input.charge
+│       │   │   └── input.xyz
+│       │   ├── 2
+│       │   │   ├── input.charge
+│       │   │   └── input.xyz
+│       │   └── 3
+│       │       ├── input.charge
+│       │       └── input.xyz
+│       ├── 2b.xyz
+│       ├── 3b
+│       │   └── 1
+│       │       ├── input.charge
+│       │       └── input.xyz
+│       ├── 3b.xyz
+│       ├── input.charge
+│       └── input.xyz
+├── 3b.xyz
+├── 4b
+│   ├── 1
+│   │   ├── 1b
+│   │   │   ├── 1
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   ├── 2
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   ├── 3
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   └── 4
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 1b.xyz
+│   │   ├── 2b
+│   │   │   ├── 1
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   ├── 2
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   ├── 3
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   ├── 4
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   ├── 5
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   └── 6
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 2b.xyz
+│   │   ├── 3b
+│   │   │   ├── 1
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   ├── 2
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   ├── 3
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   └── 4
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 3b.xyz
+│   │   ├── 4b
+│   │   │   └── 1
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 4b.xyz
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   ├── 2
+│   │   ├── 1b
+│   │   │   ├── 1
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   ├── 2
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   ├── 3
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   └── 4
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 1b.xyz
+│   │   ├── 2b
+│   │   │   ├── 1
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   ├── 2
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   ├── 3
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   ├── 4
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   ├── 5
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   └── 6
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 2b.xyz
+│   │   ├── 3b
+│   │   │   ├── 1
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   ├── 2
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   ├── 3
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   └── 4
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 3b.xyz
+│   │   ├── 4b
+│   │   │   └── 1
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 4b.xyz
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   ├── 3
+│   │   ├── 1b
+│   │   │   ├── 1
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   ├── 2
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   ├── 3
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   └── 4
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 1b.xyz
+│   │   ├── 2b
+│   │   │   ├── 1
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   ├── 2
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   ├── 3
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   ├── 4
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   ├── 5
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   └── 6
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 2b.xyz
+│   │   ├── 3b
+│   │   │   ├── 1
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   ├── 2
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   ├── 3
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   └── 4
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 3b.xyz
+│   │   ├── 4b
+│   │   │   └── 1
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 4b.xyz
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   ├── 4
+│   │   ├── 1b
+│   │   │   ├── 1
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   ├── 2
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   ├── 3
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   └── 4
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 1b.xyz
+│   │   ├── 2b
+│   │   │   ├── 1
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   ├── 2
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   ├── 3
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   ├── 4
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   ├── 5
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   └── 6
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 2b.xyz
+│   │   ├── 3b
+│   │   │   ├── 1
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   ├── 2
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   ├── 3
+│   │   │   │   ├── input.charge
+│   │   │   │   └── input.xyz
+│   │   │   └── 4
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 3b.xyz
+│   │   ├── 4b
+│   │   │   └── 1
+│   │   │       ├── input.charge
+│   │   │       └── input.xyz
+│   │   ├── 4b.xyz
+│   │   ├── input.charge
+│   │   └── input.xyz
+│   └── 5
+│       ├── 1b
+│       │   ├── 1
+│       │   │   ├── input.charge
+│       │   │   └── input.xyz
+│       │   ├── 2
+│       │   │   ├── input.charge
+│       │   │   └── input.xyz
+│       │   ├── 3
+│       │   │   ├── input.charge
+│       │   │   └── input.xyz
+│       │   └── 4
+│       │       ├── input.charge
+│       │       └── input.xyz
+│       ├── 1b.xyz
+│       ├── 2b
+│       │   ├── 1
+│       │   │   ├── input.charge
+│       │   │   └── input.xyz
+│       │   ├── 2
+│       │   │   ├── input.charge
+│       │   │   └── input.xyz
+│       │   ├── 3
+│       │   │   ├── input.charge
+│       │   │   └── input.xyz
+│       │   ├── 4
+│       │   │   ├── input.charge
+│       │   │   └── input.xyz
+│       │   ├── 5
+│       │   │   ├── input.charge
+│       │   │   └── input.xyz
+│       │   └── 6
+│       │       ├── input.charge
+│       │       └── input.xyz
+│       ├── 2b.xyz
+│       ├── 3b
+│       │   ├── 1
+│       │   │   ├── input.charge
+│       │   │   └── input.xyz
+│       │   ├── 2
+│       │   │   ├── input.charge
+│       │   │   └── input.xyz
+│       │   ├── 3
+│       │   │   ├── input.charge
+│       │   │   └── input.xyz
+│       │   └── 4
+│       │       ├── input.charge
+│       │       └── input.xyz
+│       ├── 3b.xyz
+│       ├── 4b
+│       │   └── 1
+│       │       ├── input.charge
+│       │       └── input.xyz
+│       ├── 4b.xyz
+│       ├── input.charge
+│       └── input.xyz
+├── 4b.xyz
+├── 5b
+│   └── 1
+│       ├── 1b
+│       │   ├── 1
+│       │   │   ├── input.charge
+│       │   │   └── input.xyz
+│       │   ├── 2
+│       │   │   ├── input.charge
+│       │   │   └── input.xyz
+│       │   ├── 3
+│       │   │   ├── input.charge
+│       │   │   └── input.xyz
+│       │   ├── 4
+│       │   │   ├── input.charge
+│       │   │   └── input.xyz
+│       │   └── 5
+│       │       ├── input.charge
+│       │       └── input.xyz
+│       ├── 1b.xyz
+│       ├── 2b
+│       │   ├── 1
+│       │   │   ├── input.charge
+│       │   │   └── input.xyz
+│       │   ├── 10
+│       │   │   ├── input.charge
+│       │   │   └── input.xyz
+│       │   ├── 2
+│       │   │   ├── input.charge
+│       │   │   └── input.xyz
+│       │   ├── 3
+│       │   │   ├── input.charge
+│       │   │   └── input.xyz
+│       │   ├── 4
+│       │   │   ├── input.charge
+│       │   │   └── input.xyz
+│       │   ├── 5
+│       │   │   ├── input.charge
+│       │   │   └── input.xyz
+│       │   ├── 6
+│       │   │   ├── input.charge
+│       │   │   └── input.xyz
+│       │   ├── 7
+│       │   │   ├── input.charge
+│       │   │   └── input.xyz
+│       │   ├── 8
+│       │   │   ├── input.charge
+│       │   │   └── input.xyz
+│       │   └── 9
+│       │       ├── input.charge
+│       │       └── input.xyz
+│       ├── 2b.xyz
+│       ├── 3b
+│       │   ├── 1
+│       │   │   ├── input.charge
+│       │   │   └── input.xyz
+│       │   ├── 10
+│       │   │   ├── input.charge
+│       │   │   └── input.xyz
+│       │   ├── 2
+│       │   │   ├── input.charge
+│       │   │   └── input.xyz
+│       │   ├── 3
+│       │   │   ├── input.charge
+│       │   │   └── input.xyz
+│       │   ├── 4
+│       │   │   ├── input.charge
+│       │   │   └── input.xyz
+│       │   ├── 5
+│       │   │   ├── input.charge
+│       │   │   └── input.xyz
+│       │   ├── 6
+│       │   │   ├── input.charge
+│       │   │   └── input.xyz
+│       │   ├── 7
+│       │   │   ├── input.charge
+│       │   │   └── input.xyz
+│       │   ├── 8
+│       │   │   ├── input.charge
+│       │   │   └── input.xyz
+│       │   └── 9
+│       │       ├── input.charge
+│       │       └── input.xyz
+│       ├── 3b.xyz
+│       ├── 4b
+│       │   ├── 1
+│       │   │   ├── input.charge
+│       │   │   └── input.xyz
+│       │   ├── 2
+│       │   │   ├── input.charge
+│       │   │   └── input.xyz
+│       │   ├── 3
+│       │   │   ├── input.charge
+│       │   │   └── input.xyz
+│       │   ├── 4
+│       │   │   ├── input.charge
+│       │   │   └── input.xyz
+│       │   └── 5
+│       │       ├── input.charge
+│       │       └── input.xyz
+│       ├── 4b.xyz
+│       ├── 5b
+│       │   └── 1
+│       │       ├── input.charge
+│       │       └── input.xyz
+│       ├── 5b.xyz
+│       ├── input.charge
+│       └── input.xyz
+├── 5b.xyz
+```
 
 3. Obtain the energies of each input.xyz file, and save the total energy (binding energy if using forcefields, and total energy if using a quantum chemistry package) IN HARTREES in a file called `input.energy`. The name MUST be this one.
 
