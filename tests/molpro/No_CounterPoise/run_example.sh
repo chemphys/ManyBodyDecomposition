@@ -9,4 +9,4 @@ chmod 755 run_molpro.sh
 chmod 644 run_molpro.sh
 
 # 3. Get many-body energies
-python3 ../../../src/3-get_mb_decomp.py 5 1
+python3 ../../../src/3-get_mb_decomp.py 5 1 co2

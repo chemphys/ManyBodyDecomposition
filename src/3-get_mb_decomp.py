@@ -11,14 +11,19 @@ import math
 
 # In[16]:
 
-if len(sys.argv) != 3:
-    print("Usage: python3 " + sys.argv[0] + " N  mode" )
+if len(sys.argv) != 4:
+    print("Usage: python3 " + sys.argv[0] + " N  mode monomer" )
     print("N is the max N-body contribution you want")
+    print("monomer is the monomer name of the contributions you want to separate")
+    print("If monomer == h2o , the contributions from fragments with only h2o will be separated from the rest")
     sys.exit(1)
 nbmaxg = int(sys.argv[1])
 mode = int(sys.argv[2])
+monomer = sys.argv[3]
+monnames = ["co2","co2","co2","co2","co2"]
 atlistg = [3,3,3,3,3]
 opt_mon_eng = [-185.06839054,-185.06839054,-185.06839054,-185.06839054,-185.06839054]
+unit_convertion = 627.509;
 #atlist = [3,3]
 #opt_mon_en = [-186.561257471,-186.561257471]
 #nbmaxg = 5
@@ -50,10 +55,23 @@ def get_mb(nbmax,atlist,opt_mon_en):
     # Get 1b
     enb = []
     e = []
+    enb_A = []
+    enb_B = []
+    e_A = []
+    e_B = []
     for i in range(nm[0]):
-        e.append(energies[0][i] - opt_mon_en[i])
+        my_e = energies[0][i] - opt_mon_en[i]
+        e.append(my_e)
+        if monnames[i] == monomer:
+            e_A.append(my_e)
+            e_B.append(0.0)
+        else:
+            e_B.append(my_e)
+            e_A.append(0.0)
 
     enb.append(e)
+    enb_A.append(e_A)
+    enb_B.append(e_B)
     
     # Get the many-body contributions (>1B)
     # Loop overall the nb contributions
@@ -61,9 +79,13 @@ def get_mb(nbmax,atlist,opt_mon_en):
         n = nbx + 1
         # Get the nbx-yh body contribution for each fragment
         e = []
+        e_A = []
+        e_B = []
         for frag in combs[nbx]:
             sumE = []
             e.append(0.0)
+            e_A.append(0.0)
+            e_B.append(0.0)
             x = len(e) - 1
             # Loop over all the nth subfragments of the cluster
             for k in range(1,len(frag) + 1):
@@ -88,9 +110,25 @@ def get_mb(nbmax,atlist,opt_mon_en):
                 b = math.factorial(k - m)
                 c = math.factorial(Nmax - k)
                 g = one * a / b / c
-                e[x ] += g * sumE[m2]
+                my_e = g * sumE[m2]
+                e[x] += my_e
+
+                # check if monomer is in fragment
+                is_A = True
+                for mon_id in range(len(frag)):
+                    my_id = int(frag[mon_id])
+                    if monomer != monnames[my_id - 1]:
+                        is_A = False
+                        break
+
+                if is_A:
+                    e_A[x] += my_e
+                else:
+                    e_B[x] += my_e
         enb.append(e)
-    return enb
+        enb_A.append(e_A)
+        enb_B.append(e_B)
+    return enb, enb_A, enb_B
 
 
 # In[ ]:
@@ -108,12 +146,12 @@ def get_mb(nbmax,atlist,opt_mon_en):
 
 if mode == 1 or mode == 2:
 
-    enb = get_mb(nbmaxg,atlistg,opt_mon_eng)
+    enb, enb_A, enb_B = get_mb(nbmaxg,atlistg,opt_mon_eng)
 
     # Printing results
     be = 0.0
     for i in range(len(enb)):
-        enb[i] = [k * 627.503 for k in enb[i]]
+        enb[i] = [k * unit_convertion for k in enb[i]]
         be += sum(enb[i])
         print(str(i+1) + "b = " + str(sum(enb[i])))
     if nbmaxg == nb:
@@ -125,17 +163,32 @@ if mode == 1 or mode == 2:
         for j in range(len(enb[i])):
             print("Fragment " + str(j+1) + ": " + str(enb[i][j]) )
 
+    # Print individual contributions
+    print("\nContributions by monomer:")
+    
+    print("NB  =    [with only " + monomer + "]      [other a part from " + monomer + "]     Total")
+    for i in range(len(enb)):
+        enb_A[i] = [k * unit_convertion for k in enb_A[i]]
+        enb_B[i] = [k * unit_convertion for k in enb_B[i]]
+
+        print(str(i+1) + "b  = " + str(sum(enb_A[i])) + "     " + str(sum(enb_B[i])) + "     "  + str(sum(enb[i]))) 
+        
+
 elif mode == 3:
     nb = len(atlistg)
     nm = []
     monsN = range(1,nb + 1)
     comb = []
     enb = []
+    enb_A = []
+    enb_B = []
     for i in range(1,nb+1):
         comb.append(list(it.combinations(monsN,i)))
         nm.append(len(comb[i-1]))
     for i in range(nbmaxg):
         enb.append([])
+        enb_A.append([])
+        enb_B.append([])
         foldname = str(i + 1) + "b"
         for j in range(len(comb[i])):
             atl = []
@@ -144,14 +197,16 @@ elif mode == 3:
                 atl.append(atlistg[comb[i][j][k] -1])
                 monen.append(opt_mon_eng[comb[i][j][k]-1])
             os.chdir(foldname + "/" + str(j+1))
-            enbx = get_mb(i+1,atl,monen)
+            enbx, enb_xa, enb_xb = get_mb(i+1,atl,monen)
             enb[i].append(enbx[i][0])
+            enb_A[i].append(enb_xa[i][0])
+            enb_B[i].append(enb_xb[i][0])
             os.chdir("../../")
             
     # Printing results
     be = 0.0
     for i in range(len(enb)):
-        enb[i] = [k * 627.503 for k in enb[i]]
+        enb[i] = [k * unit_convertion for k in enb[i]]
         be += sum(enb[i])
         print(str(i+1) + "b = " + str(sum(enb[i])))
     if nbmaxg == nb:
@@ -162,6 +217,16 @@ elif mode == 3:
         print("Individual " + str(i+1) + "-body contributions:")
         for j in range(len(enb[i])):
             print("Fragment " + str(j+1) + ": " + str(enb[i][j]) )
+
+    # Print individual contributions
+    print("\nContributions by monomer:")
+
+    print("NB  =    [with only " + monomer + "]      [other a part from " + monomer + "]     Total")
+    for i in range(len(enb)):
+        enb_A[i] = [k * unit_convertion for k in enb_A[i]]
+        enb_B[i] = [k * unit_convertion for k in enb_B[i]]
+       
+        print(str(i+1) + "b  = " + str(sum(enb_A[i])) + "     " + str(sum(enb_B[i])) + "     "  + str(sum(enb[i])))
 
 
 
