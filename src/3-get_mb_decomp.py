@@ -30,10 +30,9 @@ unit_convertion = 627.509;
 
 nb = len(atlistg)
 
-
 # In[17]:
 
-def get_mb(nbmax,atlist,opt_mon_en):
+def get_mb(nbmax,atlist,opt_mon_en,my_monnames):
     # Getting data we will need
     nb = len(atlist)
     nm = []
@@ -81,6 +80,8 @@ def get_mb(nbmax,atlist,opt_mon_en):
         e = []
         e_A = []
         e_B = []
+#        print("NBX = " + str(nbx))
+#        print(combs[nbx])
         for frag in combs[nbx]:
             sumE = []
             e.append(0.0)
@@ -113,18 +114,21 @@ def get_mb(nbmax,atlist,opt_mon_en):
                 my_e = g * sumE[m2]
                 e[x] += my_e
 
-                # check if monomer is in fragment
-                is_A = True
-                for mon_id in range(len(frag)):
-                    my_id = int(frag[mon_id])
-                    if monomer != monnames[my_id - 1]:
-                        is_A = False
-                        break
+            # check if monomer is in fragment
+            is_A = True
+            for mon_id in range(len(frag)):
+                my_id = int(frag[mon_id])
+#                print(monomer + " vs " + monnames[my_id - 1])
+#                print(frag)
+                if monomer != my_monnames[my_id - 1]:
+                    is_A = False
+                    break
 
-                if is_A:
-                    e_A[x] += my_e
-                else:
-                    e_B[x] += my_e
+            if is_A:
+                e_A[x] += e[x]
+            else:
+                e_B[x] += e[x]
+
         enb.append(e)
         enb_A.append(e_A)
         enb_B.append(e_B)
@@ -146,7 +150,7 @@ def get_mb(nbmax,atlist,opt_mon_en):
 
 if mode == 1 or mode == 2:
 
-    enb, enb_A, enb_B = get_mb(nbmaxg,atlistg,opt_mon_eng)
+    enb, enb_A, enb_B = get_mb(nbmaxg,atlistg,opt_mon_eng,monnames)
 
     # Printing results
     be = 0.0
@@ -193,11 +197,13 @@ elif mode == 3:
         for j in range(len(comb[i])):
             atl = []
             monen = []
+            monnamesl = []
             for k in range(len(comb[i][j])):
                 atl.append(atlistg[comb[i][j][k] -1])
                 monen.append(opt_mon_eng[comb[i][j][k]-1])
+                monnamesl.append(monnames[comb[i][j][k]-1])
             os.chdir(foldname + "/" + str(j+1))
-            enbx, enb_xa, enb_xb = get_mb(i+1,atl,monen)
+            enbx, enb_xa, enb_xb = get_mb(i+1,atl,monen,monnamesl)
             enb[i].append(enbx[i][0])
             enb_A[i].append(enb_xa[i][0])
             enb_B[i].append(enb_xb[i][0])
@@ -227,18 +233,4 @@ elif mode == 3:
         enb_B[i] = [k * unit_convertion for k in enb_B[i]]
        
         print(str(i+1) + "b  = " + str(sum(enb_A[i])) + "     " + str(sum(enb_B[i])) + "     "  + str(sum(enb[i])))
-
-
-
-   
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
 
